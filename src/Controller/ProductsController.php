@@ -30,7 +30,7 @@ class ProductsController extends AbstractController
         int $id,
         DTOSerializer $serializer,
         PromotionsFilterInterface $promotionsFilter
-    ): Response
+    ): JsonResponse
     {
         if ($request->headers->has('force-fail')) {
             return new JsonResponse(
@@ -50,15 +50,13 @@ class ProductsController extends AbstractController
         $promotions = $this->promotionRepository->findValidVorProduct(
             $product,
             date_create_immutable($lowestPriceEnquiry->getRequestDate()),
-        );
+        ); // handling if promotions not found
 
-        dd($promotions);
-
-        $modifiedEnquiry = $promotionsFilter->apply($lowestPriceEnquiry, $promotions);
+        $modifiedEnquiry = $promotionsFilter->apply($lowestPriceEnquiry, ...$promotions);
 
         $responseContent = $serializer->serialize($modifiedEnquiry, 'json');
 
-        return new Response($responseContent);
+        return JsonResponse::fromJsonString($responseContent);
     }
     
     #[Route('/products/{id}/promotions', name: 'promotions', methods: 'GET')]

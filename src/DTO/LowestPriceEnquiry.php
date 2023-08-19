@@ -3,6 +3,7 @@
 namespace App\DTO;
 
 use App\Entity\Product;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 class LowestPriceEnquiry implements PromotionsEnquiryInterface
 {
@@ -14,6 +15,7 @@ class LowestPriceEnquiry implements PromotionsEnquiryInterface
 
     private ?string $requestDate;
 
+    #[Ignore]
     private ?Product $product;
 
     private ?float $price;

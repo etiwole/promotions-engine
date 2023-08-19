@@ -3,10 +3,11 @@
 namespace App\Filter;
 
 use App\DTO\PromotionsEnquiryInterface;
+use App\Entity\Promotion;
 
 class LowestPriceFilter implements PromotionsFilterInterface
 {
-    public function apply(PromotionsEnquiryInterface $enquiry): PromotionsEnquiryInterface
+    public function apply(PromotionsEnquiryInterface $enquiry, Promotion ...$promotion): PromotionsEnquiryInterface
     {
         $enquiry->setDiscountPrice(50);
         $enquiry->setPrice(200);
